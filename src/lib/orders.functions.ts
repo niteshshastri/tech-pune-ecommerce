@@ -114,9 +114,7 @@ export const getOrderByNumber = createServerFn({ method: "POST" })
       .maybeSingle();
 
     if (!order || order.phone !== data.phone) return null;
-    const { order_items, ...rest } = order as Record<string, string> & {
-      order_items: Record<string, string>[];
-    };
+    const { order_items, ...rest } = order;
     return { ...rest, items: order_items ?? [] };
   });
 
