@@ -1,0 +1,1 @@
+REVOKE ALL ON FUNCTION public.place_order(jsonb, text, text, text, text, text, text, text, text, text, uuid) FROM anon, authenticated, PUBLIC;
