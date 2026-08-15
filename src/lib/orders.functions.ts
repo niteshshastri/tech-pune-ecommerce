@@ -38,7 +38,7 @@ export const placeOrder = createServerFn({ method: "POST" })
       _state: data.state ?? "Maharashtra",
       _pincode: data.pincode,
       _notes: data.notes ?? "",
-      _user_id: userId,
+      _user_id: userId as string,
     });
 
     if (error) throw new Error(error.message);
