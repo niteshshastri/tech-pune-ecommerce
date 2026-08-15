@@ -389,8 +389,14 @@ export const adminSaveSettings = createServerFn({ method: "POST" })
     const { assertAdmin } = await import("./admin.server");
     await assertAdmin(context.supabase, context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { id, ...rest } = data;
-    const { error } = await supabaseAdmin.from("business_settings").update(rest).eq("id", id);
+    const { id, business_name, delivery_fee, ...rest } = data;
+    const nullable = Object.fromEntries(
+      Object.entries(rest).map(([key, value]) => [key, value === undefined || value === "" ? null : value]),
+    ) as Record<string, string | null>;
+    const { error } = await supabaseAdmin
+      .from("business_settings")
+      .update({ business_name, delivery_fee, ...nullable })
+      .eq("id", id);
     if (error) throw new Error(error.message);
     return { ok: true };
   });
