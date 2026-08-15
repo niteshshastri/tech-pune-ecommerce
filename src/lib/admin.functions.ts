@@ -334,14 +334,14 @@ export const adminUpdateOrder = createServerFn({ method: "POST" })
     await assertAdmin(context.supabase, context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-    const update: Record<string, unknown> = {};
-    if (data.order_status) update["order_status"] = data.order_status;
-    if (data.payment_status) update["payment_status"] = data.payment_status;
-    if (data.admin_notes !== undefined) update["admin_notes"] = data.admin_notes;
-    if (data.payment_status === "paid") {
-      update["paid_at"] = new Date().toISOString();
-      update["verified_by"] = context.userId;
-    }
+    const update = {
+      ...(data.order_status ? { order_status: data.order_status } : {}),
+      ...(data.payment_status ? { payment_status: data.payment_status } : {}),
+      ...(data.admin_notes !== undefined ? { admin_notes: data.admin_notes } : {}),
+      ...(data.payment_status === "paid"
+        ? { paid_at: new Date().toISOString(), verified_by: context.userId }
+        : {}),
+    };
 
     const { error } = await supabaseAdmin.from("orders").update(update).eq("id", data.id);
     if (error) throw new Error(error.message);
