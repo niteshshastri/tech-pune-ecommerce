@@ -338,9 +338,6 @@ export const adminUpdateOrder = createServerFn({ method: "POST" })
       ...(data.order_status ? { order_status: data.order_status } : {}),
       ...(data.payment_status ? { payment_status: data.payment_status } : {}),
       ...(data.admin_notes !== undefined ? { admin_notes: data.admin_notes } : {}),
-      ...(data.payment_status === "paid"
-        ? { paid_at: new Date().toISOString(), verified_by: context.userId }
-        : {}),
     };
 
     const { error } = await supabaseAdmin.from("orders").update(update).eq("id", data.id);
