@@ -20,6 +20,7 @@ import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as OrderOrderNumberRouteImport } from './routes/order.$orderNumber'
 import { Route as PoliciesSlugRouteImport } from './routes/policies.$slug'
@@ -80,6 +81,11 @@ const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
   path: '/account',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const CategorySlugRoute = CategorySlugRouteImport.update({
   id: '/category/$slug',
   path: '/category/$slug',
@@ -118,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/track': typeof TrackRoute
   '/account': typeof AuthenticatedAccountRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/category/$slug': typeof CategorySlugRoute
   '/order/$orderNumber': typeof OrderOrderNumberRoute
   '/policies/$slug': typeof PoliciesSlugRoute
@@ -135,6 +142,7 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/track': typeof TrackRoute
   '/account': typeof AuthenticatedAccountRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/category/$slug': typeof CategorySlugRoute
   '/order/$orderNumber': typeof OrderOrderNumberRoute
   '/policies/$slug': typeof PoliciesSlugRoute
@@ -154,6 +162,7 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/track': typeof TrackRoute
   '/_authenticated/account': typeof AuthenticatedAccountRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/category/$slug': typeof CategorySlugRoute
   '/order/$orderNumber': typeof OrderOrderNumberRoute
   '/policies/$slug': typeof PoliciesSlugRoute
@@ -173,6 +182,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/track'
     | '/account'
+    | '/admin'
     | '/category/$slug'
     | '/order/$orderNumber'
     | '/policies/$slug'
@@ -190,6 +200,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/track'
     | '/account'
+    | '/admin'
     | '/category/$slug'
     | '/order/$orderNumber'
     | '/policies/$slug'
@@ -208,6 +219,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/track'
     | '/_authenticated/account'
+    | '/_authenticated/admin'
     | '/category/$slug'
     | '/order/$orderNumber'
     | '/policies/$slug'
@@ -312,6 +324,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/category/$slug': {
       id: '/category/$slug'
       path: '/category/$slug'
@@ -352,10 +371,12 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccountRoute: AuthenticatedAccountRoute,
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
