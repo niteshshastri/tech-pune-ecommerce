@@ -66,19 +66,29 @@ export function SiteFooter() {
               <Link to="/contact">Contact</Link>
             </li>
             <li>
-              <Link to="/policies/warranty">Warranty policy</Link>
+              <Link to="/policies/$slug" params={{ slug: "warranty" }}>
+                Warranty policy
+              </Link>
             </li>
             <li>
-              <Link to="/policies/delivery">Delivery policy</Link>
+              <Link to="/policies/$slug" params={{ slug: "delivery" }}>
+                Delivery policy
+              </Link>
             </li>
             <li>
-              <Link to="/policies/refund">Refund &amp; cancellation</Link>
+              <Link to="/policies/$slug" params={{ slug: "refund" }}>
+                Refund &amp; cancellation
+              </Link>
             </li>
             <li>
-              <Link to="/policies/privacy">Privacy policy</Link>
+              <Link to="/policies/$slug" params={{ slug: "privacy" }}>
+                Privacy policy
+              </Link>
             </li>
             <li>
-              <Link to="/policies/terms">Terms of service</Link>
+              <Link to="/policies/$slug" params={{ slug: "terms" }}>
+                Terms of service
+              </Link>
             </li>
           </ul>
         </div>

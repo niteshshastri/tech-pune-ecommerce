@@ -18,8 +18,8 @@ export function PageHeader({
   eyebrow,
 }: {
   title: string;
-  subtitle?: string;
-  eyebrow?: string;
+  subtitle?: string | undefined;
+  eyebrow?: string | undefined;
 }) {
   return (
     <div className="border-b border-border bg-secondary/60">
@@ -36,7 +36,13 @@ export function PageHeader({
   );
 }
 
-export function ProseSection({ text, fallback }: { text?: string | null; fallback: string }) {
+export function ProseSection({
+  text,
+  fallback,
+}: {
+  text?: string | null | undefined;
+  fallback: string;
+}) {
   const content = text?.trim() ? text : fallback;
   return (
     <div className="container-page py-10">
