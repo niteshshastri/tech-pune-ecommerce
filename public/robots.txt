@@ -12,3 +12,10 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /checkout
+Disallow: /cart
+
+Sitemap: https://tech-pune-ecommerce.lovable.app/sitemap.xml
+

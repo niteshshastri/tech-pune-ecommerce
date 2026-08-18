@@ -1,8 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Menu, Phone, Search, ShoppingCart, User, X } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { Menu, Phone, Search, ShieldCheck, ShoppingCart, User, X } from "lucide-react";
 import { useState } from "react";
 import { getCategories, getSettings } from "@/lib/catalog.functions";
+import { amIAdmin } from "@/lib/admin.functions";
 import { useCart } from "@/lib/cart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,6 +24,25 @@ export function SiteHeader() {
     queryFn: () => getCategories(),
     staleTime: 5 * 60 * 1000,
   });
+
+  const checkAdmin = useServerFn(amIAdmin);
+  const { data: sessionUser } = useQuery({
+    queryKey: ["session-user"],
+    queryFn: async () => {
+      const { supabase } = await import("@/integrations/supabase/client");
+      const { data } = await supabase.auth.getSession();
+      return data.session?.user?.id ?? null;
+    },
+    staleTime: 60 * 1000,
+  });
+  const { data: role } = useQuery({
+    queryKey: ["am-i-admin"],
+    queryFn: () => checkAdmin(),
+    enabled: Boolean(sessionUser),
+    staleTime: 5 * 60 * 1000,
+    retry: false,
+  });
+  const isAdmin = Boolean(role?.isAdmin);
 
   const topCategories = (categories ?? []).filter((c) => c.is_active).slice(0, 6);
 
@@ -126,6 +147,11 @@ export function SiteHeader() {
           <Link to="/contact" className="text-muted-foreground hover:text-foreground">
             Contact
           </Link>
+          {isAdmin ? (
+            <Link to="/admin" className="inline-flex items-center gap-1 font-medium text-primary">
+              <ShieldCheck className="h-3.5 w-3.5" /> Admin
+            </Link>
+          ) : null}
         </div>
       </nav>
 
@@ -172,6 +198,15 @@ export function SiteHeader() {
             <Link to="/contact" onClick={() => setOpen(false)} className="py-1.5 text-muted-foreground">
               Contact
             </Link>
+            {isAdmin ? (
+              <Link
+                to="/admin"
+                onClick={() => setOpen(false)}
+                className="inline-flex items-center gap-1 py-1.5 font-medium text-primary"
+              >
+                <ShieldCheck className="h-3.5 w-3.5" /> Admin dashboard
+              </Link>
+            ) : null}
           </div>
         </div>
       ) : null}
