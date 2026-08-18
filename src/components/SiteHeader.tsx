@@ -198,6 +198,15 @@ export function SiteHeader() {
             <Link to="/contact" onClick={() => setOpen(false)} className="py-1.5 text-muted-foreground">
               Contact
             </Link>
+            {isAdmin ? (
+              <Link
+                to="/admin"
+                onClick={() => setOpen(false)}
+                className="inline-flex items-center gap-1 py-1.5 font-medium text-primary"
+              >
+                <ShieldCheck className="h-3.5 w-3.5" /> Admin dashboard
+              </Link>
+            ) : null}
           </div>
         </div>
       ) : null}
