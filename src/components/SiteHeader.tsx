@@ -147,6 +147,11 @@ export function SiteHeader() {
           <Link to="/contact" className="text-muted-foreground hover:text-foreground">
             Contact
           </Link>
+          {isAdmin ? (
+            <Link to="/admin" className="inline-flex items-center gap-1 font-medium text-primary">
+              <ShieldCheck className="h-3.5 w-3.5" /> Admin
+            </Link>
+          ) : null}
         </div>
       </nav>
 
