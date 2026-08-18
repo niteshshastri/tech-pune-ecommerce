@@ -1,8 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Menu, Phone, Search, ShoppingCart, User, X } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { Menu, Phone, Search, ShieldCheck, ShoppingCart, User, X } from "lucide-react";
 import { useState } from "react";
 import { getCategories, getSettings } from "@/lib/catalog.functions";
+import { amIAdmin } from "@/lib/admin.functions";
 import { useCart } from "@/lib/cart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
