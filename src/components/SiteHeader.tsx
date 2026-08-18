@@ -25,6 +25,25 @@ export function SiteHeader() {
     staleTime: 5 * 60 * 1000,
   });
 
+  const checkAdmin = useServerFn(amIAdmin);
+  const { data: sessionUser } = useQuery({
+    queryKey: ["session-user"],
+    queryFn: async () => {
+      const { supabase } = await import("@/integrations/supabase/client");
+      const { data } = await supabase.auth.getSession();
+      return data.session?.user?.id ?? null;
+    },
+    staleTime: 60 * 1000,
+  });
+  const { data: role } = useQuery({
+    queryKey: ["am-i-admin"],
+    queryFn: () => checkAdmin(),
+    enabled: Boolean(sessionUser),
+    staleTime: 5 * 60 * 1000,
+    retry: false,
+  });
+  const isAdmin = Boolean(role?.isAdmin);
+
   const topCategories = (categories ?? []).filter((c) => c.is_active).slice(0, 6);
 
   return (
